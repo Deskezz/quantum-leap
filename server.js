@@ -66,21 +66,23 @@ app.post('/save', async (req, res) => {
  * Заменяет секцию в файле
  */
 function replaceSection(content, startMarker, endMarker, newSection) {
-    // Ищем начало и конец секции
+    // Ищем начало секции
     const startIndex = content.indexOf(startMarker);
-    const endIndex = content.indexOf(endMarker);
 
     if (startIndex === -1) {
         // Секции нет - добавляем в начало
         return newSection + '\n\n' + content;
     }
 
+    // Ищем конец секции (начало следующей секции)
+    const endIndex = content.indexOf(endMarker, startIndex);
+
     if (endIndex === -1) {
         // Нет следующей секции - заменяем до конца
         return content.substring(0, startIndex) + newSection + '\n\n';
     }
 
-    // Заменяем секцию
+    // Заменяем секцию: всё до начала + новая секция + всё после конца
     return content.substring(0, startIndex) + newSection + '\n\n' + content.substring(endIndex);
 }
 
