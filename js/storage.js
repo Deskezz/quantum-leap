@@ -328,30 +328,36 @@ ${answers.q5}`;
     /**
      * Сохранение чекина
      */
-    async saveCheckin(date, data) {
+    async saveCheckin(date, data, isUpdate = false) {
         try {
             let content = localStorage.getItem(this.STORAGE_KEY);
 
-            const dateStr = Utils.formatDate(date);
-            const checkinText = `
---- ${dateStr} ---
+            // Баг 3: Используем формат YYYY-MM-DD для консистентности
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            
+            const checkinText = `--- ${dateStr} ---
 1. Настроение: ${data.moodScore}/10 | Эмоции: ${data.emotions}
 2. Главный паттерн дня: ${data.pattern}
 3. Действия к цели: ${data.actions}
 4. О чём думал: ${data.thoughts}
-5. Осознанный выбор: ${data.choice}
-`;
+5. Осознанный выбор: ${data.choice}`;
 
             const checkinRegex = new RegExp(`--- ${dateStr} ---[\\s\\S]*?(?=\\n---|$)`, 'g');
             
             if (content.match(checkinRegex)) {
-                content = content.replace(checkinRegex, checkinText.trim());
+                content = content.replace(checkinRegex, checkinText);
             } else {
-                content += checkinText;
+                content += '\n' + checkinText + '\n';
             }
 
-            await this.saveToStorage(content, checkinText.trim());
-            Utils.showNotification('Чекин сохранён', 'success');
+            await this.saveToStorage(content, checkinText);
+            
+            // Баг 2: Правильное уведомление
+            const message = isUpdate ? 'Чекин обновлён' : 'Чекин сохранён';
+            Utils.showNotification(message, 'success');
             return true;
         } catch (error) {
             console.error('Ошибка сохранения чекина:', error);
@@ -364,7 +370,11 @@ ${answers.q5}`;
      * Получение чекина за дату
      */
     getCheckin(date) {
-        const dateStr = Utils.formatDate(date);
+        // Используем формат YYYY-MM-DD для консистентности
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
         return this.data.checkins.find(c => c.date === dateStr);
     },
 

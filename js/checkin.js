@@ -54,10 +54,13 @@ const CheckinModule = {
     async loadTodayCheckin() {
         const checkin = StorageModule.getCheckin(this.currentDate);
         
+        const moodSlider = document.getElementById('mood-score');
+        const moodValue = document.getElementById('mood-value');
+        
         if (checkin) {
             // Заполняем форму существующими данными
-            document.getElementById('mood-score').value = checkin.q1_mood_score;
-            document.getElementById('mood-value').textContent = checkin.q1_mood_score;
+            moodSlider.value = checkin.q1_mood_score;
+            moodValue.textContent = checkin.q1_mood_score;
             document.getElementById('emotions').value = checkin.q1_emotions || '';
             document.getElementById('pattern').value = checkin.q2_pattern || '';
             document.getElementById('actions').value = checkin.q3_actions || '';
@@ -65,6 +68,9 @@ const CheckinModule = {
             document.getElementById('choice').value = checkin.q5_choice || '';
             
             document.getElementById('save-checkin-btn').textContent = 'Обновить чекин';
+        } else {
+            // Баг 1: Показываем начальное значение слайдера
+            moodValue.textContent = moodSlider.value;
         }
     },
 
@@ -81,10 +87,15 @@ const CheckinModule = {
             choice: document.getElementById('choice').value
         };
 
-        const success = await StorageModule.saveCheckin(this.currentDate, data);
+        // Баг 2: Проверяем, это новый чекин или обновление
+        const existingCheckin = StorageModule.getCheckin(this.currentDate);
+        const isUpdate = !!existingCheckin;
+
+        const success = await StorageModule.saveCheckin(this.currentDate, data, isUpdate);
         
         if (success) {
             this.renderCalendar(); // Обновляем календарь
+            document.getElementById('save-checkin-btn').textContent = 'Обновить чекин';
         }
     },
 
