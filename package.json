@@ -1,0 +1,21 @@
+{
+  "name": "quantum-leap",
+  "version": "2.0.0",
+  "description": "Персональный дневник трансформации с ИИ-анализом",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "diary",
+    "journal",
+    "ai",
+    "personal-growth"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

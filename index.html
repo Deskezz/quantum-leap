@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Leap — Дневник трансформации</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Quantum Leap</h1>
+            <p class="tagline">Твой путь трансформации</p>
+        </div>
+    </header>
+
+    <!-- Управление файлом -->
+    <div class="file-controls">
+        <div class="container">
+            <div id="file-status" class="file-status"></div>
+            <div class="file-actions">
+                <button id="download-backup-btn" class="btn btn-secondary" style="display: none;">💾 Скачать резервную копию</button>
+                <button id="export-ai-btn" class="btn btn-secondary" style="display: none;">📤 Экспорт для ИИ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <nav class="tabs">
+        <div class="container">
+            <button class="tab-btn active" data-tab="checkin">Чекин</button>
+            <button class="tab-btn" data-tab="profile">Мой профиль</button>
+            <button class="tab-btn" data-tab="report">Сводка</button>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main">
+        <div class="container">
+            
+            <!-- ========== ТАБ 1: ЧЕКИН ========== -->
+            <section id="tab-checkin" class="tab-content active">
+                <div class="tab-header">
+                    <h2>Ежедневный чекин</h2>
+                    <p class="current-date" id="current-date"></p>
+                </div>
+
+                <!-- Форма чекина -->
+                <form id="checkin-form" class="form">
+                    <div class="form-group">
+                        <label for="mood-score">
+                            1. Как я себя чувствую сегодня?
+                            <span class="mood-value" id="mood-value">5</span>/10
+                        </label>
+                        <input type="range" id="mood-score" name="mood-score" min="1" max="10" value="5" class="slider">
+                        <input type="text" id="emotions" name="emotions" placeholder="1-2 эмоции (например: спокойствие, усталость)" class="input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pattern">2. Какая главная мысль/страх/убеждение крутилось в голове сегодня?</label>
+                        <textarea id="pattern" name="pattern" rows="3" class="textarea" placeholder="Опиши главный паттерн дня..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="actions">3. Что сделал(а) сегодня, чтобы приблизиться к желаемому я?</label>
+                        <textarea id="actions" name="actions" rows="3" class="textarea" placeholder="Конкретные действия..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="thoughts">4. Какая тема или ситуация занимала мысли чаще всего?</label>
+                        <textarea id="thoughts" name="thoughts" rows="3" class="textarea" placeholder="О чём думал(а)..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="choice">5. Какое решение принял(а) осознанно, а не по инерции?</label>
+                        <textarea id="choice" name="choice" rows="3" class="textarea" placeholder="Осознанный выбор дня..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="save-checkin-btn">Сохранить чекин</button>
+                </form>
+
+                <!-- Календарь прогресса -->
+                <div class="calendar-section">
+                    <h3>Прогресс месяца</h3>
+                    <div id="calendar" class="calendar"></div>
+                </div>
+            </section>
+
+            <!-- ========== ТАБ 2: МОЙ ПРОФИЛЬ ========== -->
+            <section id="tab-profile" class="tab-content">
+                <div class="tab-header">
+                    <h2>Мой профиль трансформации</h2>
+                    <p>Зафиксируй точку А и точку Б своего пути</p>
+                    <button id="edit-profile-btn" class="btn btn-secondary" style="display: none; margin-top: 1rem;">✏️ Редактировать профиль</button>
+                </div>
+
+                <!-- Блок: Я сейчас -->
+                <div class="profile-block">
+                    <div class="profile-block-header" data-block="current">
+                        <h3>📍 Я сейчас</h3>
+                        <button class="toggle-btn">▼</button>
+                    </div>
+                    <div class="profile-block-content" id="profile-current-content">
+                        <div id="profile-current-view" class="profile-view" style="display: none;">
+                            <!-- Заполненные ответы -->
+                        </div>
+                        <form id="profile-current-form" class="form" style="display: none;">
+                            <div class="form-group">
+                                <label>1. Как я бы описал(а) себя сейчас в 3–5 словах?</label>
+                                <textarea name="q1" rows="2" class="textarea" placeholder="Например: уставший, ищущий, неуверенный..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>2. Какие 3 главные привычки или паттерна сейчас определяют мою жизнь?</label>
+                                <textarea name="q2" rows="3" class="textarea"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>3. Какие 3 главных страха или ограничивающих убеждений сейчас задерживают меня?</label>
+                                <textarea name="q3" rows="3" class="textarea"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>4. Какие качества у меня сильны, но я ими почти не пользуюсь?</label>
+                                <textarea name="q4" rows="3" class="textarea"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>5. Какой человек «здесь и сейчас» я бы назвал(а) своим типичным «я» (как персонаж)?</label>
+                                <textarea name="q5" rows="3" class="textarea"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
+                        <button id="fill-current-btn" class="btn btn-primary">Заполнить</button>
+                    </div>
+                </div>
+
+                <!-- Блок: Кем хочу стать -->
+                <div class="profile-block">
+                    <div class="profile-block-header" data-block="future">
+                        <h3>🎯 Кем хочу стать</h3>
+                        <button class="toggle-btn">▼</button>
+                    </div>
+                    <div class="profile-block-content" id="profile-future-content">
+                        <div id="profile-future-view" class="profile-view" style="display: none;">
+                            <!-- Заполненные ответы -->
+                        </div>
+                        <form id="profile-future-form" class="form" style="display: none;">
+                            <div class="form-group">
+                                <label>1. Как бы я описал(а) своего «идеального себя» через 1–3 года в 3–5 словах?</label>
+                                <textarea name="q1" rows="2" class="textarea" placeholder="Например: уверенный, спокойный, целеустремлённый..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>2. Какие 3 привычки и паттерна должен(на) иметь этот человек, которым я хочу стать?</label>
+                                <textarea name="q2" rows="3" class="textarea"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>3. Какие 3 страха или убеждения у меня сейчас должны исчезнуть в этом будущем «я»?</label>
+                                <textarea name="q3" rows="3" class="textarea"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>4. Какие качества у будущего «я» я ценю больше всего и хочу развить сейчас?</label>
+                                <textarea name="q4" rows="3" class="textarea"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>5. Как бы я представил(а) этого будущего себя в одной короткой сцене из обычного дня?</label>
+                                <textarea name="q5" rows="3" class="textarea"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
+                        <button id="fill-future-btn" class="btn btn-primary">Заполнить</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== ТАБ 3: СВОДКА ========== -->
+            <section id="tab-report" class="tab-content">
+                <div class="tab-header">
+                    <h2>Месячные сводки</h2>
+                    <p>ИИ-анализ твоего прогресса</p>
+                </div>
+
+                <!-- Текущий месяц -->
+                <div class="report-current">
+                    <h3>Текущий месяц</h3>
+                    <p class="checkin-counter" id="checkin-counter">Загрузка...</p>
+                    <div class="report-actions">
+                        <button id="generate-report-btn" class="btn btn-primary" disabled>
+                            Сгенерировать сводку за прошлый месяц
+                        </button>
+                        <button id="generate-now-btn" class="btn btn-secondary">
+                            Сгенерировать сейчас (тест)
+                        </button>
+                    </div>
+                    <p class="report-hint" id="report-hint">Сводка генерируется 1-го числа каждого месяца</p>
+                </div>
+
+                <!-- Индикатор загрузки -->
+                <div id="loading-indicator" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>ИИ анализирует твой месяц...</p>
+                </div>
+
+                <!-- Список прошлых сводок -->
+                <div class="reports-list">
+                    <h3>История сводок</h3>
+                    <div id="reports-container">
+                        <p class="empty-state">Сводок пока нет. Заполняй чекины, и в конце месяца получишь первую сводку!</p>
+                    </div>
+                </div>
+
+                <!-- Просмотр сводки -->
+                <div id="report-viewer" class="report-viewer" style="display: none;">
+                    <button class="close-btn" id="close-report-btn">✕</button>
+                    <h3 id="report-title"></h3>
+                    <div id="report-content" class="report-content"></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <p>Quantum Leap v1.0 — Твой путь трансформации</p>
+        </div>
+    </footer>
+
+    <!-- Подключение библиотек -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Подключение модулей -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/checkin.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
