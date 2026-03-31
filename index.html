@@ -21,7 +21,7 @@
             <div id="file-status" class="file-status"></div>
             <div class="file-actions">
                 <button id="download-backup-btn" class="btn btn-secondary" style="display: none;">💾 Скачать резервную копию</button>
-                <button id="export-ai-btn" class="btn btn-secondary" style="display: none;">📤 Экспорт для ИИ</button>
+                <button id="show-prompt-btn" class="btn btn-secondary" style="display: none;">📋 Промпт для сводки</button>
             </div>
         </div>
     </div>
@@ -223,6 +223,26 @@
             <p>Quantum Leap v1.0 — Твой путь трансформации</p>
         </div>
     </footer>
+
+    <!-- Модальное окно с промптом -->
+    <div id="prompt-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📋 Мастер-промпт для ИИ-анализа</h3>
+                <button class="close-btn" id="close-prompt-modal">✕</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-hint">Скопируй этот промпт и вставь в ChatGPT, Claude или другую нейросеть вместе со своими данными</p>
+                <div class="prompt-actions">
+                    <button id="copy-prompt-btn" class="btn btn-primary">📋 Скопировать</button>
+                    <button id="edit-prompt-btn" class="btn btn-secondary">✏️ Редактировать</button>
+                    <button id="save-prompt-btn" class="btn btn-primary" style="display: none;">💾 Сохранить</button>
+                    <button id="cancel-edit-btn" class="btn btn-secondary" style="display: none;">❌ Отмена</button>
+                </div>
+                <textarea id="prompt-text" class="prompt-textarea" readonly></textarea>
+            </div>
+        </div>
+    </div>
 
     <!-- Подключение библиотек -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
