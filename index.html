@@ -31,7 +31,6 @@
         <div class="container">
             <button class="tab-btn active" data-tab="checkin">Чекин</button>
             <button class="tab-btn" data-tab="profile">Мой профиль</button>
-            <button class="tab-btn" data-tab="report">Сводка</button>
         </div>
     </nav>
 
@@ -170,50 +169,6 @@
                 </div>
             </section>
 
-            <!-- ========== ТАБ 3: СВОДКА ========== -->
-            <section id="tab-report" class="tab-content">
-                <div class="tab-header">
-                    <h2>Месячные сводки</h2>
-                    <p>ИИ-анализ твоего прогресса</p>
-                </div>
-
-                <!-- Текущий месяц -->
-                <div class="report-current">
-                    <h3>Текущий месяц</h3>
-                    <p class="checkin-counter" id="checkin-counter">Загрузка...</p>
-                    <div class="report-actions">
-                        <button id="generate-report-btn" class="btn btn-primary" disabled>
-                            Сгенерировать сводку за прошлый месяц
-                        </button>
-                        <button id="generate-now-btn" class="btn btn-secondary">
-                            Сгенерировать сейчас (тест)
-                        </button>
-                    </div>
-                    <p class="report-hint" id="report-hint">Сводка генерируется 1-го числа каждого месяца</p>
-                </div>
-
-                <!-- Индикатор загрузки -->
-                <div id="loading-indicator" class="loading" style="display: none;">
-                    <div class="spinner"></div>
-                    <p>ИИ анализирует твой месяц...</p>
-                </div>
-
-                <!-- Список прошлых сводок -->
-                <div class="reports-list">
-                    <h3>История сводок</h3>
-                    <div id="reports-container">
-                        <p class="empty-state">Сводок пока нет. Заполняй чекины, и в конце месяца получишь первую сводку!</p>
-                    </div>
-                </div>
-
-                <!-- Просмотр сводки -->
-                <div id="report-viewer" class="report-viewer" style="display: none;">
-                    <button class="close-btn" id="close-report-btn">✕</button>
-                    <h3 id="report-title"></h3>
-                    <div id="report-content" class="report-content"></div>
-                </div>
-            </section>
-
         </div>
     </main>
 
@@ -244,17 +199,12 @@
         </div>
     </div>
 
-    <!-- Подключение библиотек -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
     <!-- Подключение модулей -->
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/storage.js"></script>
-    <script src="js/ai.js"></script>
     <script src="js/checkin.js"></script>
     <script src="js/profile.js"></script>
-    <script src="js/report.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

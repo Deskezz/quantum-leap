@@ -260,7 +260,6 @@ const App = {
         // Инициализируем модули
         CheckinModule.init();
         ProfileModule.init();
-        ReportModule.init();
     },
 
     /**
