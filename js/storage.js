@@ -193,12 +193,14 @@ const StorageModule = {
     /**
      * Сохранение в localStorage
      */
-    async saveToStorage(content) {
+    async saveToStorage(content, sectionOnly = null) {
         localStorage.setItem(this.STORAGE_KEY, content);
         this.parseContent(content);
         
-        // Отправляем на сервер для записи в файл
-        await this.saveToServer(content);
+        // Отправляем на сервер только секцию (если указана) или весь файл
+        if (sectionOnly) {
+            await this.saveToServer(sectionOnly);
+        }
     },
 
     /**
@@ -272,7 +274,7 @@ ${answers.q5}`;
                 section + '\n\n'
             );
 
-            await this.saveToStorage(content);
+            await this.saveToStorage(content, section);
             Utils.showNotification('Профиль "Я сейчас" сохранён', 'success');
             return true;
         } catch (error) {
@@ -313,7 +315,7 @@ ${answers.q5}`;
                 section + '\n\n'
             );
 
-            await this.saveToStorage(content);
+            await this.saveToStorage(content, section);
             Utils.showNotification('Профиль "Кем хочу стать" сохранён', 'success');
             return true;
         } catch (error) {
@@ -348,7 +350,7 @@ ${answers.q5}`;
                 content += checkinText;
             }
 
-            await this.saveToStorage(content);
+            await this.saveToStorage(content, checkinText.trim());
             Utils.showNotification('Чекин сохранён', 'success');
             return true;
         } catch (error) {
